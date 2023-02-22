@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -8,7 +9,7 @@ const navigation = [
   { name: "Company", href: "#" },
 ];
 
-export default function Example(): JSX.Element {
+export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -42,8 +43,10 @@ export default function Example(): JSX.Element {
         </div>
         <a href="#" className="-m-1.5 p-1.5">
           <span className="sr-only">Kreative</span>
-          <img
+          <Image
             className="h-10 w-auto"
+            width={300}
+            height={100}
             src="https://cdn.kreativeusa.com/id/mykreative-default.png"
             alt=""
           />
@@ -78,8 +81,10 @@ export default function Example(): JSX.Element {
             </div>
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <img
+              <Image
                 className="h-8 w-auto"
+                width={200}
+                height={80}
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt=""
               />
