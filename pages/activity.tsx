@@ -1,19 +1,14 @@
 import Head from "next/head";
-import { useAtom } from "jotai";
 import Authenticate from "../components/Authenticate";
 import SidebarLayout from "../components/dashboard/SidebarLayout";
-import AccountDetails from "../components/dashboard/AccountDetails";
-import { accountStore } from "@/stores/accountStore";
 
 const permissions = ["KREATIVE_ID_USER"];
 
-export default function AccountPage() {
-  const [account] = useAtom(accountStore);
-
+export default function ActivityPage() {
   return (
     <Authenticate permissions={permissions}>
       <Head>
-        <title>Account | MyKreative | Account Management for Dreamers</title>
+        <title>Activity | MyKreative | Account Management for Dreamers</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link
           rel="icon"
@@ -22,10 +17,10 @@ export default function AccountPage() {
       </Head>
       <main>
         <SidebarLayout
-          title={`Welcome to your Kreative, @${account?.username} 👋`}
-          subtitle={"Manage your account details here."}
+          title={`Your Activity`}
+          subtitle={"View everything you've done across Kreative."}
         >
-          <AccountDetails />
+          <></>
         </SidebarLayout>
       </main>
     </Authenticate>

@@ -5,12 +5,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useAtom } from "jotai";
 import {
   Bars3Icon,
-  CalendarIcon,
-  ChartBarIcon,
-  FolderIcon,
-  HomeIcon,
-  InboxIcon,
-  UsersIcon,
   XMarkIcon,
   UserIcon,
   Cog6ToothIcon,
@@ -24,9 +18,9 @@ import { accountStore } from "@/stores/accountStore";
 
 const navigation = [
   { name: "Account", href: "/account", icon: UserIcon, current: true },
-  { name: "Activity", href: "#", icon: ArrowTrendingUpIcon, current: false },
-  { name: "Wallet", href: "#", icon: WalletIcon, current: false },
-  { name: "Settings", href: "#", icon: Cog6ToothIcon, current: false },
+  { name: "Activity", href: "/activity", icon: ArrowTrendingUpIcon, current: false },
+  { name: "Wallet", href: "/wallet", icon: WalletIcon, current: false },
+  { name: "Settings", href: "/settings", icon: Cog6ToothIcon, current: false },
   {
     name: "Support",
     href: "https://support.kreativeusa.com/mykreative",
@@ -119,6 +113,7 @@ export default function Example({ title, subtitle, children }) {
                         <Link
                           key={item.name}
                           href={item.href}
+                          target={item.href.includes("http") ? "_blank" : ""}
                           className={classNames(
                             item.current
                               ? "bg-gray-100 text-gray-900"
