@@ -29,7 +29,7 @@ export default function AuthPage() {
       });
 
       // redirects to the admin page for authentication flow to continue
-      window.location.href = "/dashboard";
+      window.location.href = "/account";
     };
 
     // takes the given key and creates a new cookie, then redirects user to admin page
