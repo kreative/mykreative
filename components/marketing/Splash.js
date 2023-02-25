@@ -54,7 +54,7 @@ export default function Splash() {
             </div>
           </div>
           <h1 className="mt-10 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-            It's your Kreative, manage it your way.
+            It&apos;s your Kreative, manage it your way.
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600">
             MyKreative gives you complete access to your Kreative account.
