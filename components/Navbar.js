@@ -47,7 +47,7 @@ export default function Example() {
             className="h-10 w-auto"
             width={300}
             height={100}
-            src="https://cdn.kreativeusa.com/id/mykreative-default.png"
+            src="https://cdn.kreativeusa.com/id/mykreative-logo-default.png"
             alt=""
           />
         </a>
