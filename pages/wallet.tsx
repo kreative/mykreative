@@ -18,9 +18,13 @@ export default function WalletPage() {
       <main>
         <SidebarLayout
           title={`Your Wallet`}
-          subtitle={"Discover your transaction history and how many DreamCoin you've earned."}
+          subtitle={
+            "Discover your transaction history and how many DreamCoin you've earned."
+          }
         >
-          <></>
+          <div>
+            <p className="text-lg text-gray-500">Coming soon!</p>
+          </div>
         </SidebarLayout>
       </main>
     </Authenticate>

@@ -20,7 +20,9 @@ export default function SettingsPage() {
           title={`Settings`}
           subtitle={"Configure your settings for MyKreative."}
         >
-          <></>
+          <div>
+            <p className="text-lg text-gray-500">Coming soon!</p>
+          </div>
         </SidebarLayout>
       </main>
     </Authenticate>

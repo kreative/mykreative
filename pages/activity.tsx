@@ -20,7 +20,9 @@ export default function ActivityPage() {
           title={`Your Activity`}
           subtitle={"View everything you've done across Kreative."}
         >
-          <></>
+          <div>
+            <p className="text-lg text-gray-500">Coming soon!</p>
+          </div>
         </SidebarLayout>
       </main>
     </Authenticate>
