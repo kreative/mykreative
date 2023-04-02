@@ -1,7 +1,7 @@
-
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { useAtom } from "jotai";
+import wretch from "wretch";
 
 import { accountStore } from "@/stores/accountStore";
 
