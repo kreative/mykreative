@@ -18,7 +18,12 @@ import { accountStore } from "@/stores/accountStore";
 
 const navigation = [
   { name: "Account", href: "/account", icon: UserIcon, current: true },
-  { name: "Activity", href: "/activity", icon: ArrowTrendingUpIcon, current: false },
+  {
+    name: "Activity",
+    href: "/activity",
+    icon: ArrowTrendingUpIcon,
+    current: false,
+  },
   { name: "Wallet", href: "/wallet", icon: WalletIcon, current: false },
   { name: "Settings", href: "/settings", icon: Cog6ToothIcon, current: false },
   {
@@ -249,10 +254,10 @@ export default function Example({ title, subtitle, children }) {
           <main className="flex-1">
             <div className="py-6">
               <div className="mx-auto max-w-7xl pb-12 px-4 sm:px-6 lg:px-8">
-                <h1 className="text-2xl font-semibold text-gray-900">
+                <h1 className="text-2xl font-semibold text-gray-900 pb-2">
                   {title}
                 </h1>
-                <p className="text-md text-gray-600 font-regular">{subtitle}</p>
+                <p className="text-lg text-gray-600 font-regular">{subtitle}</p>
               </div>
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 {children}
