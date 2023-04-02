@@ -46,7 +46,7 @@ function classNames(...classes) {
 
 export default function Example({ title, subtitle, children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [account, setAccount] = useAtom(accountStore);
+  const [account] = useAtom(accountStore);
 
   return (
     <>
