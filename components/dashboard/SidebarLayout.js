@@ -44,7 +44,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example({ title, subtitle, children }) {
+export default function SidebarLayout({ title, subtitle, children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [account] = useAtom(accountStore);
 
