@@ -1,4 +1,3 @@
-import Head from "next/head";
 import Link from "next/link";
 import axios from "axios";
 import { useState } from "react";
@@ -122,26 +121,22 @@ export default function EditAccountForm() {
         if (err.response) {
           if (err.response.data.message === "username is already taken") {
             alert("warn", "The username you have entered is already taken");
-            return;
           } else if (err.response.data.message === "email is already taken") {
             alert(
               "warn",
               "The email you have entered is already being used by another Kreative account"
             );
-            return;
           } else {
             alert(
               "error",
               `Internal server issue: ${err.response.data.message}`
             );
-            return;
           }
         } else if (err.request) {
           alert(
             "error",
             "There was an error connecting to the Kreative network. Please try again later :("
           );
-          return;
         }
       });
   };
