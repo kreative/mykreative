@@ -36,7 +36,7 @@ export default function EditAccountForm() {
   const [barWidthName, setBarWidthName] = useState("");
   const [textClass, setTextClass] = useState("gray-500");
 
-  const hideAlertsOnKeyDown = (e) => {
+  const hideAlertsOnKeyDown = () => {
     setShowWarnAlert(false);
     setShowErrorAlert(false);
     setShowSuccessAlert(false);
