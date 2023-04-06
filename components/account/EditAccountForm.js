@@ -3,10 +3,12 @@ import axios from "axios";
 import { useState } from "react";
 import { useAtom } from "jotai";
 import { useCookies } from "react-cookie";
+import zxcvbn from "zxcvbn";
 import { accountStore } from "@/stores/accountStore";
 import WarnAlert from "@/components/dashboard/WarnAlert";
 import ErrorAlert from "@/components/dashboard/ErrorAlert";
 import SuccessAlert from "@/components/dashboard/SuccessAlert";
+import ProgressBar from "@/components/ProgressBar";
 
 export default function EditAccountForm() {
   const [cookies] = useCookies(["kreative_id_key"]);
@@ -26,6 +28,20 @@ export default function EditAccountForm() {
   const [successAlert, setSuccessAlert] = useState("");
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
+  // password strength analyzer progress bar states
+  const [passwordScore, setPasswordScore] = useState(0);
+  const [barWrapperClass, setBarWrapperClass] = useState("pt-3 hidden");
+  const [barMessage, setBarMessage] = useState("");
+  const [progressClass, setProgressClass] = useState("");
+  const [barWidthName, setBarWidthName] = useState("");
+  const [textClass, setTextClass] = useState("gray-500");
+
+  const hideAlertsOnKeyDown = (e) => {
+    setShowWarnAlert(false);
+    setShowErrorAlert(false);
+    setShowSuccessAlert(false);
+  };
+
   const alert = (type, message) => {
     if (type === "warn") {
       setShowWarnAlert(true);
@@ -36,6 +52,51 @@ export default function EditAccountForm() {
     } else {
       setShowSuccessAlert(true);
       setSuccessAlert(message);
+    }
+  };
+
+  const changeProgressBar = (message, progressClass, widthName, textClass) => {
+    // sets the state for the different variables for the progress bar
+    setBarMessage(message);
+    setProgressClass(progressClass);
+    setBarWidthName(widthName);
+    setTextClass(textClass);
+  };
+
+  const handlePasswordInput = (passwordInput) => {
+    // hides the progress bar if there is no password entered
+    if (passwordInput.length !== 0) setBarWrapperClass("pt-3");
+    else setBarWrapperClass("pt-3 hidden");
+
+    // updates the password in react state
+    setNewPassword(passwordInput);
+
+    // get the score of the password and sets it to state
+    const score = zxcvbn(newPassword).score;
+    setPasswordScore(score);
+
+    // changes progress bar strength based on score
+    if (passwordScore === 0 || passwordScore === 1) {
+      changeProgressBar(
+        "Password weak",
+        "h-2.5 w-4/12 rounded-full bg-red-600",
+        "20%",
+        "text-sm text-red-600"
+      );
+    } else if (passwordScore === 2) {
+      changeProgressBar(
+        "Password almost there",
+        "h-2.5 w-8/12 rounded-full bg-yellow-500",
+        "75%",
+        "text-sm text-yellow-500"
+      );
+    } else if (passwordScore === 3 || passwordScore === 4) {
+      changeProgressBar(
+        "Strong password",
+        "h-2.5 w-12/12 rounded-full bg-green-700",
+        "100%",
+        "text-sm text-green-700"
+      );
     }
   };
 
@@ -187,6 +248,7 @@ export default function EditAccountForm() {
                     placeholder="guppy57"
                     value={newUsername}
                     onChange={(e) => setNewUsername(e.target.value)}
+                    onKeyDown={hideAlertsOnKeyDown}
                   />
                 </div>
               </div>
@@ -208,6 +270,7 @@ export default function EditAccountForm() {
                     className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                     value={newFirstName}
                     onChange={(e) => setNewFirstName(e.target.value)}
+                    onKeyDown={hideAlertsOnKeyDown}
                   />
                 </div>
               </div>
@@ -229,6 +292,7 @@ export default function EditAccountForm() {
                     className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                     value={newLastName}
                     onChange={(e) => setNewLastName(e.target.value)}
+                    onKeyDown={hideAlertsOnKeyDown}
                   />
                 </div>
               </div>
@@ -250,6 +314,7 @@ export default function EditAccountForm() {
                     className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                     value={newEmail}
                     onChange={(e) => setNewEmail(e.target.value)}
+                    onKeyDown={hideAlertsOnKeyDown}
                   />
                 </div>
               </div>
@@ -281,7 +346,16 @@ export default function EditAccountForm() {
                     autoComplete="new-password"
                     className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                     value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
+                    onChange={(e) => handlePasswordInput(e.target.value)}
+                    onKeyDown={hideAlertsOnKeyDown}
+                  />
+                </div>
+                <div className={barWrapperClass}>
+                  <ProgressBar
+                    widthName={barWidthName}
+                    progressClass={progressClass}
+                    textClass={textClass}
+                    message={barMessage}
                   />
                 </div>
               </div>
@@ -302,6 +376,7 @@ export default function EditAccountForm() {
                     className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                     value={newPasswordConfirm}
                     onChange={(e) => setNewPasswordConfirm(e.target.value)}
+                    onKeyDown={hideAlertsOnKeyDown}
                   />
                 </div>
               </div>
