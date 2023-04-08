@@ -83,7 +83,7 @@ export default function Splash() {
               alt="Website screenshot for MyKreative"
               width={2432}
               height={1442}
-              className="w-[84rem] rounded-md shadow-2xl ring-1 ring-gray-900/10"
+              className="w-[84rem] rounded-xl shadow-2xl ring-1 ring-gray-900/10"
             />
           </div>
         </div>
