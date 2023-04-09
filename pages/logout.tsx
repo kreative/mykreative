@@ -12,7 +12,7 @@ const APPCHAIN = process.env.NEXT_PUBLIC_APPCHAIN;
 export default function Logout(): JSX.Element {
   // gets the global account store
   const [account, setAccount] = useAtom(accountStore);
-  
+
   // gets the needed cookies
   const [cookies, _, removeCookie] = useCookies([
     "kreative_id_key",
@@ -20,7 +20,6 @@ export default function Logout(): JSX.Element {
   ]);
 
   const parsedAIDN = parseInt(AIDN as string);
-  console.log(typeof parsedAIDN)
 
   useEffect(() => {
     // closes the keychain using id-api
@@ -35,8 +34,6 @@ export default function Logout(): JSX.Element {
       .then((response) => {
         // response status code is between 200-299
         // the only response that would come through is 200 (HTTP OK)
-        console.log(response.data.data);
-
         // deletes all cookies stored in local storage
         removeCookie("kreative_id_key", { path: "/" });
         removeCookie("keychain_id", { path: "/" });
@@ -45,7 +42,6 @@ export default function Logout(): JSX.Element {
         setAccount({} as IAccount);
 
         // redirects user back to the home page
-        // TODO design a better logout flow that notifies user that they have been logged out
         window.location.href = "/";
       })
       .catch((error) => {
