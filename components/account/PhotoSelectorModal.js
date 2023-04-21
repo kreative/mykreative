@@ -6,7 +6,6 @@ import { useCookies } from "react-cookie";
 import { Dialog, Transition } from "@headlessui/react";
 import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
 import ErrorAlert from "@/components/dashboard/ErrorAlert";
-import { XCircleIcon } from "@heroicons/react/20/solid";
 import SelectablePhoto from "@/components/account/SelectablePhoto";
 
 export default function PhotoSelectorModal({
@@ -20,7 +19,7 @@ export default function PhotoSelectorModal({
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [errorAlertMessage, setErrorAlertMessage] = useState("Yo yo yo");
   const hiddenFileInput = useRef(null);
-  const handleUploadButtonClick = (event) => {
+  const handleUploadButtonClick = () => {
     hiddenFileInput.current.click();
   };
 
@@ -136,10 +135,11 @@ export default function PhotoSelectorModal({
       return response.data;
     },
     onError: (error) => {
+      console.log(error);
       setErrorAlertMessage("Error uploading photo, please try again soon :(");
       setShowErrorAlert(true);
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["userPhotos"] });
     },
   });
@@ -165,10 +165,11 @@ export default function PhotoSelectorModal({
       return response.data;
     },
     onError: (error) => {
+      console.log(error);
       setErrorAlertMessage("Error deleting photo, please try again soon :(");
       setShowErrorAlert(true);
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["userPhotos"] });
     },
   });
