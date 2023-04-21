@@ -5,6 +5,7 @@ import { useAtom } from "jotai";
 import { useCookies } from "react-cookie";
 import zxcvbn from "zxcvbn";
 import { accountStore } from "@/stores/accountStore";
+import EditProfilePicture from "@/components/account/EditProfilePicture";
 import WarnAlert from "@/components/dashboard/WarnAlert";
 import ErrorAlert from "@/components/dashboard/ErrorAlert";
 import SuccessAlert from "@/components/dashboard/SuccessAlert";
@@ -220,10 +221,10 @@ export default function EditAccountForm() {
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
             <div>
               <h2 className="text-base font-semibold leading-7 text-gray-900">
-                Basic Account Details
+                Account Details
               </h2>
               <p className="mt-1 text-md leading-6 text-gray-600">
-                This information will be shown publically across the Kreative
+                This information will be shown publicly across the Kreative
                 network.
               </p>
             </div>
@@ -231,7 +232,18 @@ export default function EditAccountForm() {
             <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
               <div className="sm:col-span-4">
                 <label
-                  htmlFor="company-website"
+                  htmlFor={"profile-picture"}
+                  className={
+                    "block text-sm font-medium leading-6 text-gray-900 pb-4"
+                  }
+                >
+                  Profile Picture
+                </label>
+                <EditProfilePicture />
+              </div>
+              <div className="sm:col-span-4">
+                <label
+                  htmlFor="username"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
                   Username
