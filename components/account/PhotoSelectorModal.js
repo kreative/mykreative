@@ -19,6 +19,9 @@ export default function PhotoSelectorModal({
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [errorAlertMessage, setErrorAlertMessage] = useState("Yo yo yo");
   const hiddenFileInput = useRef(null);
+  const [previewImage, setPreviewImage] = useState("");
+  const [showPreview, setShowPreview] = useState(false);
+
   const handleUploadButtonClick = () => {
     hiddenFileInput.current.click();
   };
@@ -36,11 +39,21 @@ export default function PhotoSelectorModal({
       setShowErrorAlert(true);
     }
 
+    // set the previewImage variable to the uploaded file
+    setPreviewImage(URL.createObjectURL(file));
+    setShowPreview(true);
     uploadMutation.mutate(file);
   };
 
-  const handleDelete = (event, photoId) => {
+  const handleDelete = (event, photoId, photoUrl) => {
     event.preventDefault();
+
+    if (photoUrl === currentImageUrl) {
+      setErrorAlertMessage("You cannot delete your current profile picture");
+      setShowErrorAlert(true);
+      return;
+    }
+
     deletePhotoMutation.mutate(photoId);
   };
 
@@ -51,7 +64,6 @@ export default function PhotoSelectorModal({
 
   const handleImageSelection = async (e, photoUrl) => {
     e.preventDefault();
-
     const response = await axios.post(
       "https://id-api.kreativeusa.com/v1/accounts/update/avatar",
       {
@@ -140,6 +152,8 @@ export default function PhotoSelectorModal({
       setShowErrorAlert(true);
     },
     onSuccess: () => {
+      setShowPreview(false);
+      setPreviewImage("");
       queryClient.invalidateQueries({ queryKey: ["userPhotos"] });
     },
   });
@@ -235,6 +249,22 @@ export default function PhotoSelectorModal({
                             onDelete={handleDelete}
                           />
                         ))}
+                        <div
+                          className={
+                            "flex items-center justify-center pb-3" +
+                            (showPreview ? "" : " hidden")
+                          }
+                        >
+                          <Image
+                            className={
+                              "relative h-28 w-28 rounded-full overflow-hidden opacity-25"
+                            }
+                            src={previewImage}
+                            alt={"Preview image"}
+                            width={300}
+                            height={300}
+                          />
+                        </div>
                       </div>
                     </div>
                   )}
