@@ -1,13 +1,13 @@
 import Image from "next/image";
 import axios from "axios";
-import { Fragment, useRef, useState, useCallback } from "react";
+import { Fragment, useRef, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCookies } from "react-cookie";
 import { Dialog, Transition } from "@headlessui/react";
-import { ArrowUpTrayIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import fetchUserPhotos from "@/lib/fetchUserPhotos";
+import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
 import ErrorAlert from "@/components/dashboard/ErrorAlert";
 import { XCircleIcon } from "@heroicons/react/20/solid";
+import SelectablePhoto from "@/components/account/SelectablePhoto";
 
 export default function PhotoSelectorModal({
   currentImageUrl,
@@ -38,6 +38,11 @@ export default function PhotoSelectorModal({
     }
 
     uploadMutation.mutate(file);
+  };
+
+  const handleDelete = (event, photoId) => {
+    event.preventDefault();
+    deletePhotoMutation.mutate(photoId);
   };
 
   const setOpen = (isOpen) => {
@@ -78,7 +83,32 @@ export default function PhotoSelectorModal({
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["userPhotos"],
-    queryFn: async () => await fetchUserPhotos(cookies.kreative_id_key),
+    queryFn: async () => {
+      let response;
+
+      try {
+        response = await axios.get(
+          `https://id-api.kreativeusa.com/v1/photos/user`,
+          {
+            headers: {
+              KREATIVE_ID_KEY: cookies.kreative_id_key,
+              KREATIVE_APPCHAIN: process.env.NEXT_PUBLIC_APPCHAIN,
+              KREATIVE_AIDN: process.env.NEXT_PUBLIC_AIDN,
+            },
+          }
+        );
+      } catch (error) {
+        if (error.response) {
+          console.log("Error fetching user photos", error.response.data);
+          throw new Error(error.response.data);
+        } else {
+          console.log("Error fetching user photos", error);
+          throw new Error(error);
+        }
+      }
+
+      return response.data.data.photos;
+    },
   });
 
   const uploadMutation = useMutation({
@@ -107,6 +137,35 @@ export default function PhotoSelectorModal({
     },
     onError: (error) => {
       setErrorAlertMessage("Error uploading photo, please try again soon :(");
+      setShowErrorAlert(true);
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["userPhotos"] });
+    },
+  });
+
+  const deletePhotoMutation = useMutation({
+    mutationFn: async (photoId) => {
+      const response = await axios.delete(
+        `https://id-api.kreativeusa.com/v1/photos/${photoId}`,
+        {
+          headers: {
+            KREATIVE_ID_KEY: cookies.kreative_id_key,
+            KREATIVE_APPCHAIN: process.env.NEXT_PUBLIC_APPCHAIN,
+            KREATIVE_AIDN: process.env.NEXT_PUBLIC_AIDN,
+          },
+        }
+      );
+
+      if (response.data.error) {
+        console.log(response.data.error);
+        throw new Error(response.data.error);
+      }
+
+      return response.data;
+    },
+    onError: (error) => {
+      setErrorAlertMessage("Error deleting photo, please try again soon :(");
       setShowErrorAlert(true);
     },
     onSuccess: (data) => {
@@ -165,33 +224,15 @@ export default function PhotoSelectorModal({
                       <p className={"mb-6"}>Your photos</p>
                       <div className={"grid grid-cols-3 gap-3"}>
                         {data.map((photo) => (
-                          <div
-                            className={
-                              "flex items-center justify-center pb-3 hover:cursor-pointer"
-                            }
+                          <SelectablePhoto
                             key={photo.id}
-                            onClick={(e) => handleImageSelection(e, photo.url)}
-                          >
-                            <div className={"relative"}>
-                              <Image
-                                className={
-                                  "relative h-28 w-28 rounded-full overflow-hidden" +
-                                  (photo.url === currentImageUrl
-                                    ? " outline outline-4 outline-offset-0 outline-purple-600"
-                                    : " hover:outline hover:outline-4 hover:outline-offset-0 hover:outline-gray-200")
-                                }
-                                src={photo.url}
-                                alt={photo.filename}
-                                width={300}
-                                height={300}
-                              />
-                              <XCircleIcon
-                                className={
-                                  "absolute top-0 right-0 cursor-pointer h-8 w-8 text-red-600 bg-white rounded-full"
-                                }
-                              />
-                            </div>
-                          </div>
+                            id={photo.id}
+                            photoUrl={photo.url}
+                            filename={photo.filename}
+                            currentImageUrl={currentImageUrl}
+                            onClick={handleImageSelection}
+                            onDelete={handleDelete}
+                          />
                         ))}
                       </div>
                     </div>
