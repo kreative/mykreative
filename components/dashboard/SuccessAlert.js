@@ -1,6 +1,6 @@
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 
-export default function WarnAlert({ message }) {
+export default function SuccessAlert({ message }) {
   return (
     <div className="border-l-4 border-green-400 bg-green-50 p-4">
       <div className="flex">
