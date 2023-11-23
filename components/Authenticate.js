@@ -8,9 +8,6 @@ import { accountStore } from "@/stores/accountStore";
 // the identifier for kreative hyperlink
 const AIDN = process.env.NEXT_PUBLIC_AIDN;
 
-// the secret appchain for kreative hyperlink
-const APPCHAIN = process.env.NEXT_PUBLIC_APPCHAIN;
-
 // this component will serve as custom "middleware" to authenticate certain pages
 // essentially, it will take all page components as children
 // the function will run the authentication, and once it has passed will display children
@@ -40,7 +37,6 @@ export default function AuthenticateComponent({ children, permissions }) {
           .post({
             key: keyFromCookie,
             aidn: parseInt(AIDN),
-            appchain: APPCHAIN,
           })
           .unauthorized((error) => {
             // unauthorized exception, meaning that the keychain is expired

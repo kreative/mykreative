@@ -6,9 +6,6 @@ import { useAtom } from "jotai";
 import { IAccount } from "@/types/IAccount";
 import { accountStore } from "@/stores/accountStore";
 
-const AIDN = process.env.NEXT_PUBLIC_AIDN;
-const APPCHAIN = process.env.NEXT_PUBLIC_APPCHAIN;
-
 export default function Logout(): JSX.Element {
   // gets the global account store
   const [account, setAccount] = useAtom(accountStore);
@@ -25,10 +22,9 @@ export default function Logout(): JSX.Element {
     // closes the keychain using id-api
     axios
       .post(
-        `https://id-api.kreativeusa.com/v1/keychains/${cookies.keychain_id}/close`,
+        `https://id-api.kreativeusa.com/v1/keychains/close`,
         {
-          aidn: parsedAIDN,
-          appchain: APPCHAIN,
+          key: cookies.kreative_id_key,
         }
       )
       .then((response) => {

@@ -72,7 +72,6 @@ export default function PhotoSelectorModal({
       {
         headers: {
           KREATIVE_ID_KEY: cookies.kreative_id_key,
-          KREATIVE_APPCHAIN: process.env.NEXT_PUBLIC_APPCHAIN,
           KREATIVE_AIDN: process.env.NEXT_PUBLIC_AIDN,
         },
       }
@@ -103,7 +102,6 @@ export default function PhotoSelectorModal({
           {
             headers: {
               KREATIVE_ID_KEY: cookies.kreative_id_key,
-              KREATIVE_APPCHAIN: process.env.NEXT_PUBLIC_APPCHAIN,
               KREATIVE_AIDN: process.env.NEXT_PUBLIC_AIDN,
             },
           }
@@ -133,7 +131,6 @@ export default function PhotoSelectorModal({
         {
           headers: {
             KREATIVE_ID_KEY: cookies.kreative_id_key,
-            KREATIVE_APPCHAIN: process.env.NEXT_PUBLIC_APPCHAIN,
             KREATIVE_AIDN: process.env.NEXT_PUBLIC_AIDN,
           },
         }
@@ -165,7 +162,6 @@ export default function PhotoSelectorModal({
         {
           headers: {
             KREATIVE_ID_KEY: cookies.kreative_id_key,
-            KREATIVE_APPCHAIN: process.env.NEXT_PUBLIC_APPCHAIN,
             KREATIVE_AIDN: process.env.NEXT_PUBLIC_AIDN,
           },
         }

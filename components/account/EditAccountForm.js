@@ -167,7 +167,6 @@ export default function EditAccountForm() {
       .post("https://id-api.kreativeusa.com/v1/accounts/update", data, {
         headers: {
           KREATIVE_ID_KEY: cookies.kreative_id_key,
-          KREATIVE_APPCHAIN: process.env.NEXT_PUBLIC_APPCHAIN,
           KREATIVE_AIDN: process.env.NEXT_PUBLIC_AIDN,
         },
       })
