@@ -10,36 +10,32 @@ import { useCookies } from "react-cookie";
 export default function AuthPage() {
   const router = useRouter();
   const { key } = router.query;
-  const [cookies, setCookie] = useCookies(["kreative_id_key"]);
+  const [cookies, setCookie] = useCookies(["kreative_id_key"]); // skipcq
 
   useEffect(() => {
-    // ?? we never use this again, but it works, should we take it out ??
-    let mounted = true;
+    // ?? we never use this again, but it works, should we take it out?
+    let mounted = true; // skipcq
 
     // nothing happens unless the key query param loads
     if (!key) return;
-
-    // function that executes business logic for callback auth flow
-    const executeCallback = async () => {
-      // adds the cookie for the client side
-      setCookie("kreative_id_key", key, {
-        secure: true,
-        sameSite: "strict",
-        path: "/",
-      });
-
-      // redirects to the admin page for authentication flow to continue
-      window.location.href = "/account";
-    };
-
     // takes the given key and creates a new cookie, then redirects user to admin page
-    executeCallback();
-  }, [key, setCookie]);
+    // adds the cookie for the client side
+    setCookie("kreative_id_key", key, {
+      secure: true,
+      sameSite: "strict",
+      path: "/",
+    });
+
+    if (cookies.kreative_id_key) console.log("key cookie added");
+
+    // redirects to the admin page for authentication flow to continue
+    window.location.href = "/dash";
+  }, [key, setCookie, cookies]);
 
   return (
     <>
       <Head>
-        <title>Authenticate | Kreative Hyperlink</title>
+        <title>Authenticate | MyKreative</title>
         <meta
           name="description"
           content="First-class authentication for Kreative."

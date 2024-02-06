@@ -1,36 +1,41 @@
+import wretch from "wretch";
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { useAtom } from "jotai";
-import wretch from "wretch";
+import { accountStore } from "@/stores/account";
 
-import { accountStore } from "@/stores/accountStore";
-
-// the identifier for kreative hyperlink
+// the identifier for kreative id, either test or prod version
 const AIDN = process.env.NEXT_PUBLIC_AIDN;
 
 // this component will serve as custom "middleware" to authenticate certain pages
 // essentially, it will take all page components as children
 // the function will run the authentication, and once it has passed will display children
 // if the authentication fails, it will either handle it or redirect the user
-export default function AuthenticateComponent({ children, permissions }) {
+export default function Authenticate({ children, permissions }) {
   // this sets default state to not authenticate so that the function won't render until useEffect has run
   const [authenticated, setAuthenticated] = useState(false);
   // the single cookie we need for this function, stores the key for the user
-  const [cookies, setCookie] = useCookies(["kreative_id_key", "keychain_id"]);
-  // global account data state
-  const [account, setAccount] = useAtom(accountStore);
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "kreative_id_key",
+    "keychain_id",
+  ]);
+  // global state for the account data
+  const [_account, setAccount] = useAtom(accountStore);
 
   // in every Kreative application, this sort of function has to take place before
   // the actual business logic occurs, as there needs to be an authenticated user
   React.useEffect(() => {
     const authenticate = () => {
+      console.log("authenticating");
       // gets cookies on the client side, if none are found, return false
-      if (cookies["kreative_id_key"] === undefined) {
-        // takes the user to the id-client sign in page since there is no key
+      if (cookies.kreative_id_key === undefined) {
+        // takes the user to the sign in page since there is no key
+        console.log("no cookie found for key");
         window.location.href = `https://id.kreativeusa.com/signin?aidn=${AIDN}`;
       } else {
         // gets the key from cookie and parses it as a string for the POST request
-        const keyFromCookie = cookies["kreative_id_key"];
+        const keyFromCookie = cookies.kreative_id_key;
+        console.log("cookie found for key");
 
         // runs a verify keychain request on the API
         wretch("https://id-api.kreativeusa.com/v1/keychains/verify")
@@ -41,36 +46,59 @@ export default function AuthenticateComponent({ children, permissions }) {
           .unauthorized((error) => {
             // unauthorized exception, meaning that the keychain is expired
             // relocates to signin page with the callback for 'Kreative ID Test'
+            removeCookie("kreative_id_key");
+            removeCookie("keychain_id");
             window.location.href = `https://id.kreativeusa.com/signin?aidn=${AIDN}&message=${error.message}`;
           })
           .forbidden((error) => {
             // aidn given is not the same as the one on the keychain
             // this is a weird error that would even happen, so we will just reauthenticate the user
             // relocates to signin page with the callback for 'Kreative ID Test'
+            removeCookie("kreative_id_key");
+            removeCookie("keychain_id");
             window.location.href = `https://id.kreativeusa.com/signin?aidn=${AIDN}&message=${error.message}`;
           })
           .internalError((error) => {
             // since there is something on the server side that isn't working reauthenticating wont work
             // instead we will redirect the user to an auth error page
-            window.location.href = `https://id.kreativeusa.com/error?cause=ise&aidn=${AIDN}&message=${error.message}`;
+            removeCookie("kreative_id_key");
+            removeCookie("keychain_id");
+            console.log(error);
+            window.location.href = `https://id.kreativeusa.comerror?cause=ise&aidn=${AIDN}&message=${error.message}`;
+          })
+          .notFound((error) => {
+            // the keychain does not exist, meaning that the user has never signed in
+            // relocates to signin page with the callback for 'Kreative ID Test'
+            removeCookie("kreative_id_key");
+            removeCookie("keychain_id");
+            window.location.href = `https://id.kreativeusa.com/signin?aidn=${AIDN}&message=${error.message}`;
           })
           .json((response) => {
             const account = response.data.account;
             const keychain = response.data.keychain;
-            const userPermissions = account.permissions;
-
+            const userPermissions = account.roles;
             // checks if the user has the same permissions as required by the application
             // in other Kreative applications this will have to be manually configured based on number of permissions
-            if (
-              !(
-                userPermissions.includes(permissions[0]) ||
-                userPermissions.includes(permissions[1])
-              )
-            ) {
+
+            let authorized = false;
+
+            // this is ineffecient, but it works for now, as Kreative grows, this will have to be changed
+            for (let i = 0; i < userPermissions.length; i++) {
+              for (let j = 0; j < permissions.length; j++) {
+                if (userPermissions[i].rid === permissions[j]) {
+                  authorized = true;
+                  break;
+                }
+              }
+            }
+
+            if (!authorized) {
               // user does not have the correct permissions to continue
               // we can't just say the user isn't authenticated, because they are, they just don't have the correct permissions
               // FOR NOW we will handle the error by redirecting the user to the error page with a query param for the error
-              window.location.href = `/error?cause=permissions&aidn=${AIDN}`;
+              removeCookie("kreative_id_key");
+              removeCookie("keychain_id");
+              window.location.href = `/dash/unauthorized`;
             } else {
               // since we can't add headers, since we are executing this on the client side, we will just setup new cookies
               setCookie("keychain_id", keychain.id, {
@@ -87,14 +115,17 @@ export default function AuthenticateComponent({ children, permissions }) {
             }
           })
           .catch((error) => {
+            console.log(error);
             // some sort of unknown error, possibly on the client side itself
-            window.location.href = `https://id.kreativeusa.com/error?cause=unknown&aidn=${AIDN}&message=${error.message}`;
+            removeCookie("kreative_id_key");
+            removeCookie("keychain_id");
+            window.location.href = `https://kreativedocuvet.com/500?cause=unknown&aidn=${AIDN}&message=${error.message}`;
           });
       }
     };
 
     authenticate();
-  }, [cookies.keychain_id, cookies.kreative_id_key]);
+  }, []);
 
-  return <div>{authenticated && <div>{children}</div>}</div>;
+  return <div>{authenticated && <div>{children} </div>}</div>;
 }
