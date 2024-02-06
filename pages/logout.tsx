@@ -6,6 +6,8 @@ import { useAtom } from "jotai";
 import { IAccount } from "@/types/IAccount";
 import { accountStore } from "@/stores/accountStore";
 
+const AIDN = process.env.NEXT_PUBLIC_AIDN;
+
 export default function Logout(): JSX.Element {
   // gets the global account store
   const [account, setAccount] = useAtom(accountStore);
@@ -16,7 +18,7 @@ export default function Logout(): JSX.Element {
     "keychain_id",
   ]);
 
-  const parsedAIDN = parseInt(process.env.NEXT_PUBLIC_AIDN as string);
+  const parsedAIDN = parseInt(AIDN as string);
 
   useEffect(() => {
     // closes the keychain using id-api
