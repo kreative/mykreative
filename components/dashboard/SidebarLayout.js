@@ -3,39 +3,22 @@ import Image from "next/image";
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useAtom } from "jotai";
-import {
-  Bars3Icon,
-  XMarkIcon,
-  UserIcon,
-  Cog6ToothIcon,
-  ArrowLeftOnRectangleIcon,
-  WalletIcon,
-  ArrowTrendingUpIcon,
-  HeartIcon,
-} from "@heroicons/react/24/outline";
+import { User, List, X, Heart, SignOut } from "@phosphor-icons/react/dist/ssr";
 
 import { accountStore } from "@/stores/accountStore";
 
 const navigation = [
-  { name: "Account", href: "/account", icon: UserIcon, current: true },
-  {
-    name: "Activity",
-    href: "/activity",
-    icon: ArrowTrendingUpIcon,
-    current: false,
-  },
-  { name: "Wallet", href: "/wallet", icon: WalletIcon, current: false },
-  { name: "Settings", href: "/settings", icon: Cog6ToothIcon, current: false },
+  { name: "Account", href: "/account", icon: User, current: true },
   {
     name: "Support",
     href: "https://support.kreativeusa.com/mykreative",
-    icon: HeartIcon,
+    icon: Heart,
     current: false,
   },
   {
     name: "Logout",
     href: "/logout",
-    icon: ArrowLeftOnRectangleIcon,
+    icon: SignOut,
     current: false,
   },
 ];
@@ -96,10 +79,7 @@ export default function SidebarLayout({ title, subtitle, children }) {
                         onClick={() => setSidebarOpen(false)}
                       >
                         <span className="sr-only">Close sidebar</span>
-                        <XMarkIcon
-                          className="h-6 w-6 text-white"
-                          aria-hidden="true"
-                        />
+                        <X className="h-6 w-6 text-white" aria-hidden="true" />
                       </button>
                     </div>
                   </Transition.Child>
@@ -118,7 +98,10 @@ export default function SidebarLayout({ title, subtitle, children }) {
                         <Link
                           key={item.name}
                           href={item.href}
-                          target={item.href.includes("http") ? "_blank" : ""}
+                          target={
+                            item.href.includes("https") ? "_blank" : undefined
+                          }
+                          rel="noreferrer"
                           className={classNames(
                             item.current
                               ? "bg-gray-100 text-gray-900"
@@ -232,7 +215,7 @@ export default function SidebarLayout({ title, subtitle, children }) {
                       {account.firstName} {account.lastName}
                     </p>
                     <p className="text-xs font-medium text-gray-500 group-hover:text-gray-700">
-                      View profile
+                      {account.email}
                     </p>
                   </div>
                 </div>
@@ -248,13 +231,13 @@ export default function SidebarLayout({ title, subtitle, children }) {
               onClick={() => setSidebarOpen(true)}
             >
               <span className="sr-only">Open sidebar</span>
-              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+              <List className="h-6 w-6" aria-hidden="true" />
             </button>
           </div>
           <main className="flex-1">
             <div className="py-6">
               <div className="mx-auto max-w-7xl pt-8 pb-12 px-4 sm:px-6 lg:px-8">
-                <h1 className="text-2xl font-semibold text-gray-900 pb-2">
+                <h1 className="text-2xl font-semibold text-gray-900 pb-2 tracking-tight">
                   {title}
                 </h1>
                 <p className="text-lg text-gray-600 font-regular">{subtitle}</p>

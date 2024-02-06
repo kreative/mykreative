@@ -4,22 +4,67 @@
 
 @layer base {
   @font-face {
-    font-family: CraftworkSans;
-    font-weight: normal;
-    src: url("/fonts/CraftworkSans-Regular.woff"),
-      url("/fonts/CraftworkSans-Regular.woff2"),
-      url("/fonts/CraftworkSans-Regular.ttf");
+    font-family: Satoshi;
+    src: url("/fonts/Satoshi/fonts/Satoshi-Regular.woff2") format("woff2"),
+      url("/fonts/Satoshi/fonts/Satoshi-Regular.woff") format("woff"),
+      url("/fonts/Satoshi/fonts/Satoshi-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
   }
 
   @font-face {
-    font-family: CraftworkSans;
+    font-family: Satoshi;
+    src: url("/fonts/Satoshi/fonts/Satoshi-Italic.woff2") format("woff2"),
+      url("/fonts/Satoshi/fonts/Satoshi-Italic.woff") format("woff"),
+      url("/fonts/Satoshi/fonts/Satoshi-Italic.ttf") format("truetype");
+    font-weight: 400;
+    font-display: swap;
+    font-style: italic;
+  }
+
+  @font-face {
+    font-family: Satoshi;
+    src: url("/fonts/Satoshi/fonts/Satoshi-Medium.woff2") format("woff2"),
+      url("/fonts/Satoshi/fonts/Satoshi-Medium.woff") format("woff"),
+      url("/fonts/Satoshi/fonts/Satoshi-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-display: swap;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: Satoshi;
+    src: url("/fonts/Satoshi/fonts/Satoshi-MediumItalic.woff2") format("woff2"),
+      url("/fonts/Satoshi/fonts/Satoshi-MediumItalic.woff") format("woff"),
+      url("/fonts/Satoshi/fonts/Satoshi-MediumItalic.ttf") format("truetype");
+    font-weight: 500;
+    font-display: swap;
+    font-style: italic;
+  }
+
+  @font-face {
+    font-family: Satoshi;
+    src: url("/fonts/Satoshi/fonts/Satoshi-Bold.woff2") format("woff2"),
+      url("/fonts/Satoshi/fonts/Satoshi-Bold.woff") format("woff"),
+      url("/fonts/Satoshi/fonts/Satoshi-Bold.ttf") format("truetype");
     font-weight: bold;
-    src: url("/fonts/CraftworkSans-Bold.woff"),
-      url("/fonts/CraftworkSans-Bold.woff2"),
-      url("/fonts/CraftworkSans-Bold.ttf");
+    font-display: swap;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: Satoshi;
+    src: url("/fonts/Satoshi/fonts/Satoshi-BoldItalic.woff2") format("woff2"),
+      url("/fonts/Satoshi/fonts/Satoshi-BoldItalic.woff") format("woff"),
+      url("/fonts/Satoshi/fonts/Satoshi-BoldItalic.ttf") format("truetype");
+    font-weight: bold;
+    font-display: swap;
+    font-style: italic;
   }
 
   html {
-    font-family: CraftworkSans, system-ui, sans-serif;
+    font-family: Satoshi, system-ui, sans-serif;
+    /* @apply text-neutrals-13; */
   }
 }

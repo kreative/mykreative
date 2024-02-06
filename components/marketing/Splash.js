@@ -53,7 +53,7 @@ export default function Splash() {
               </a>
             </div>
           </div>
-          <h1 className="mt-10 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+          <h1 className="mt-10 text-4xl font-bold tracking-tighter text-gray-900 sm:text-6xl">
             It&apos;s your Kreative, manage it your way.
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600">

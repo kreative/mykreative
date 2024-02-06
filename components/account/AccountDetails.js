@@ -10,8 +10,8 @@ export default function AccountDetails() {
   return (
     <div className="overflow-hidden border border-gray-200 bg-white shadow sm:rounded-lg">
       <div className="px-4 py-5 sm:px-6">
-        <div className="flex">
-          <div>
+        <div className="flex items-center">
+          <div className="flex items-center">
             <Image
               className="h-12 w-12 rounded-full"
               src={account.profilePicture}
@@ -19,21 +19,20 @@ export default function AccountDetails() {
               width={48}
               height={48}
             />
-          </div>
-          <div className="ml-4">
-            <h3 className="text-base font-semibold leading-6 text-gray-900">
-              Account information
-            </h3>
-            <p className="mt-1 max-w-2xl text-sm text-gray-500">
-              View your account details, make changes, and keep your information
-              up to date
-            </p>
+            <div className="mx-4">
+              <h3 className="text-base font-semibold leading-6 text-gray-900">
+                Account information
+              </h3>
+              <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                View your account details and keep your information up to date
+              </p>
+            </div>
           </div>
           <div className="flex-grow">
             <div className="flex justify-end mt-1">
               <Link href="/account/edit" className="inline-flex items-center">
-                <span className="text-md shadow px-6 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700">
-                  Edit Account
+                <span className="text-md shadow px-6 py-2 bg-black text-white rounded-md hover:bg-black/90">
+                  Manage
                 </span>
               </Link>
             </div>

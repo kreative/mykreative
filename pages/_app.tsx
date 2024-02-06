@@ -4,41 +4,130 @@ import localFont from "@next/font/local";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CookiesProvider } from "react-cookie";
 
-// custom craftwork sans font loading locally
-const craftworkSans = localFont({
+const satoshi = localFont({
   src: [
     {
-      path: "../public/fonts/CraftworkSans-Regular.woff",
+      path: "../public/fonts/Satoshi/fonts/Satoshi-Regular.woff",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../public/fonts/CraftworkSans-Regular.woff2",
+      path: "../public/fonts/Satoshi/fonts/Satoshi-Regular.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../public/fonts/CraftworkSans-Regular.ttf",
+      path: "../public/fonts/Satoshi/fonts/Satoshi-Regular.ttf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../public/fonts/CraftworkSans-Bold.woff",
+      path: "../public/fonts/Satoshi/fonts/Satoshi-Regular.eot",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/Satoshi/fonts/Satoshi-Italic.woff",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../public/fonts/Satoshi/fonts/Satoshi-Italic.woff2",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../public/fonts/Satoshi/fonts/Satoshi-Italic.ttf",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../public/fonts/Satoshi/fonts/Satoshi-Italic.eot",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../public/fonts/Satoshi/fonts/Satoshi-Medium.woff",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/Satoshi/fonts/Satoshi-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/Satoshi/fonts/Satoshi-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/Satoshi/fonts/Satoshi-Medium.eot",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/Satoshi/fonts/Satoshi-MediumItalic.woff",
+      weight: "500",
+      style: "italic",
+    },
+    {
+      path: "../public/fonts/Satoshi/fonts/Satoshi-MediumItalic.woff2",
+      weight: "500",
+      style: "italic",
+    },
+    {
+      path: "../public/fonts/Satoshi/fonts/Satoshi-MediumItalic.ttf",
+      weight: "500",
+      style: "italic",
+    },
+    {
+      path: "../public/fonts/Satoshi/fonts/Satoshi-MediumItalic.eot",
+      weight: "500",
+      style: "italic",
+    },
+    {
+      path: "../public/fonts/Satoshi/fonts/Satoshi-Bold.woff",
       weight: "700",
       style: "normal",
     },
     {
-      path: "../public/fonts/CraftworkSans-Bold.woff2",
+      path: "../public/fonts/Satoshi/fonts/Satoshi-Bold.woff2",
       weight: "700",
       style: "normal",
     },
     {
-      path: "../public/fonts/CraftworkSans-Bold.ttf",
+      path: "../public/fonts/Satoshi/fonts/Satoshi-Bold.ttf",
       weight: "700",
       style: "normal",
+    },
+    {
+      path: "../public/fonts/Satoshi/fonts/Satoshi-Bold.eot",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/Satoshi/fonts/Satoshi-BoldItalic.woff",
+      weight: "700",
+      style: "italic",
+    },
+    {
+      path: "../public/fonts/Satoshi/fonts/Satoshi-BoldItalic.woff2",
+      weight: "700",
+      style: "italic",
+    },
+    {
+      path: "../public/fonts/Satoshi/fonts/Satoshi-BoldItalic.ttf",
+      weight: "700",
+      style: "italic",
+    },
+    {
+      path: "../public/fonts/Satoshi/fonts/Satoshi-BoldItalic.eot",
+      weight: "700",
+      style: "italic",
     },
   ],
-  variable: "--font-craftworksans",
+  variable: "--font-satoshi",
 });
 
 const queryClient = new QueryClient();
@@ -47,9 +136,12 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <CookiesProvider>
-        <div className={`${craftworkSans.variable} font-sans`}>
-          <Component {...pageProps} />
-        </div>
+        <style jsx global>{`
+          html {
+            font-family: ${satoshi.style.fontFamily};
+          }
+        `}</style>
+        <Component {...pageProps} />
       </CookiesProvider>
     </QueryClientProvider>
   );
