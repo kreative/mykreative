@@ -98,7 +98,7 @@ export default function Authenticate({ children, permissions }) {
               // FOR NOW we will handle the error by redirecting the user to the error page with a query param for the error
               removeCookie("kreative_id_key");
               removeCookie("keychain_id");
-              window.location.href = `/dash/unauthorized`;
+              window.location.href = `https://id.kreativeusa.com/signin?aidn=${AIDN}&message=${error.message}`;
             } else {
               // since we can't add headers, since we are executing this on the client side, we will just setup new cookies
               setCookie("keychain_id", keychain.id, {
@@ -119,7 +119,7 @@ export default function Authenticate({ children, permissions }) {
             // some sort of unknown error, possibly on the client side itself
             removeCookie("kreative_id_key");
             removeCookie("keychain_id");
-            window.location.href = `https://kreativedocuvet.com/500?cause=unknown&aidn=${AIDN}&message=${error.message}`;
+            window.location.href = `https://id.kreativeusa.com/signin?aidn=${AIDN}&message=${error.message}`;
           });
       }
     };

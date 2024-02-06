@@ -29,7 +29,7 @@ export default function AuthPage() {
     if (cookies.kreative_id_key) console.log("key cookie added");
 
     // redirects to the admin page for authentication flow to continue
-    window.location.href = "/dash";
+    window.location.href = "/account";
   }, [key, setCookie, cookies]);
 
   return (
