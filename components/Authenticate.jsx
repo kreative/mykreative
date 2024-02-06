@@ -2,7 +2,7 @@ import wretch from "wretch";
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { useAtom } from "jotai";
-import { accountStore } from "@/stores/account";
+import { accountStore } from "@/stores/accountStore";
 
 // the identifier for kreative id, either test or prod version
 const AIDN = process.env.NEXT_PUBLIC_AIDN;
