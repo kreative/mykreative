@@ -16,7 +16,7 @@ export default function Logout(): JSX.Element {
     "keychain_id",
   ]);
 
-  const parsedAIDN = parseInt(AIDN as string);
+  const parsedAIDN = parseInt(process.env.NEXT_PUBLIC_AIDN as string);
 
   useEffect(() => {
     // closes the keychain using id-api
